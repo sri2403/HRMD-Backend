@@ -12,6 +12,15 @@ const employeeSchema=mongoose.Schema({
     username:String,
     email:String,
     password:String,
+    dob:String,
+    gender:String,
+    city:String,
+    contact:String,
+    role:String,
+    degree:String,
+    department:String,
+    accountNumber:String,
+    salary:String,
     token:String
 })
 export const Employee=mongoose.model('Employee',employeeSchema)

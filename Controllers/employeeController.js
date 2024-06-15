@@ -8,12 +8,12 @@ dotenv.config();
 
 export const employeeReg=async(req,res)=>{
     try {
-        const{username,email,password}=req.body;
+        const{username,email,password,dob,gender,city,contact,role,degree,department,accountNumber,salary}=req.body;
         const hashPassword= await bcryptjs.hash(password,10);
         const newEmployee=new Employee({
             username,
             email,
-            password:hashPassword
+            password:hashPassword,dob,gender,city,contact,role,degree,department,accountNumber,salary
         });
         await newEmployee.save();
         res.status(200).json({message:"Employee registered successfully", result:newEmployee})
