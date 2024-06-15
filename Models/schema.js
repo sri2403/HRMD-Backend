@@ -9,7 +9,7 @@ const adminSchema=mongoose.Schema({
 export const Admin=mongoose.model('Admin',adminSchema)
 
 const employeeSchema=mongoose.Schema({
-    id: { type: Number, required: true, unique: true },
+    id: { type: String, required: true, unique: true },
     username:String,
     email:String,
     password:String,
