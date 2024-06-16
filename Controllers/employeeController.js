@@ -100,7 +100,26 @@ export const getAllEmployees = async(req, res) =>{
         res.status(500).json({message:"Internal server error"})
     }
 }
-
+export const getEmployeeById=async(req,res)=>{
+    try {
+        const { id } = req.params;
+        const employee = await Employee.findOne({ id });
+        if (!employee) {
+            return res.status(404).json({
+                message: "Employee not found"
+            });
+        }
+        res.status(200).json({
+            message: "Employee found successfully",
+            result: employee
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Employee finding failed"
+        });
+    }
+}
 export const createEmployee=async(req,res)=>{
     try {
         const{username,email,password,dob,gender,city,contact,role,degree,department,accountNumber,salary}=req.body;
@@ -151,3 +170,20 @@ export const updateEmployee=async(req,res)=>{
         });
     }
 }
+
+export const deleteEmployee = async (req, res) => {
+    const { id } = req.params; // Get employee ID from request parameters
+
+    try {
+        const deletedEmployee = await Employee.findOneAndDelete({ id });
+
+        if (!deletedEmployee) {
+            return res.status(404).json({ message: 'Employee not found' });
+        }
+
+        res.status(200).json({ message: 'Employee deleted successfully', deletedEmployee });
+    } catch (err) {
+        console.error('Error deleting employee:', err); // Log the error for debugging
+        res.status(500).json({ message: 'Server error', error: err.message }); // Respond with detailed error message
+    }
+};
