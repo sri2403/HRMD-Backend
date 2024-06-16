@@ -152,11 +152,10 @@ export const updateEmployee=async(req,res)=>{
                 message: "Employee not found"
             });
         }
-        let updateData = {username,email,dob,gender,city,contact,role,degree,department,accountNumber,salary};
+        const hashPassword= await bcryptjs.hash(password,10);
+        let updateData = {username,hashPassword,email,dob,gender,city,contact,role,degree,department,accountNumber,salary};
 
-        if (password) {
-            updateData.password = await bcryptjs.hash(password, 10);
-        }
+        
         const updatedEmployee = await Employee.findByIdAndUpdate(employee._id, updateData, { new: true });
 
         res.status(200).json({
