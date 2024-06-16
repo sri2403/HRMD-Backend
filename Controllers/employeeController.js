@@ -103,7 +103,7 @@ export const getAllEmployees = async(req, res) =>{
 export const getEmployeeById=async(req,res)=>{
     try {
         const { id } = req.params;
-        const employee = await Employee.findOne({ _id:id });
+        const employee = await Employee.findOne({ id });
         if (!employee) {
             return res.status(404).json({
                 message: "Employee not found"
@@ -145,7 +145,7 @@ export const updateEmployee=async(req,res)=>{
         const {
             username, email, password, dob, gender, city, contact, role, degree, department, accountNumber, salary
         } = req.body;
-        const employee = await Employee.findOne({ _id:id });
+        const employee = await Employee.findOne({ id });
 
         if (!employee) {
             return res.status(404).json({
@@ -175,7 +175,7 @@ export const deleteEmployee = async (req, res) => {
     const { id } = req.params; // Get employee ID from request parameters
 
     try {
-        const deletedEmployee = await Employee.findOneAndDelete({ _id:id });
+        const deletedEmployee = await Employee.findOneAndDelete({ id });
 
         if (!deletedEmployee) {
             return res.status(404).json({ message: 'Employee not found' });
@@ -187,3 +187,14 @@ export const deleteEmployee = async (req, res) => {
         res.status(500).json({ message: 'Server error', error: err.message }); // Respond with detailed error message
     }
 };
+
+
+
+
+
+
+
+
+
+
+
