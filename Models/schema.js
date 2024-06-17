@@ -43,7 +43,7 @@ export const LeaveRequest = mongoose.model('LeaveRequest', leaveRequestSchema);
 const attendanceRecordSchema = new mongoose.Schema({
     employee: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee', required: true },
     date: { type: Date, required: true },
-    status: { type: String, enum: ['Present', 'Absent', 'On Leave'], required: true },
+    status: { type: String, enum: ['Present',"Absent"], required: true },
     recordedAt: { type: Date, default: Date.now }
 });
 export const AttendanceRecord = mongoose.model('AttendanceRecord', attendanceRecordSchema);
