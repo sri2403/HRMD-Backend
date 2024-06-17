@@ -1,5 +1,5 @@
 import  express  from "express";
-import { createEmployee, deleteEmployee, employeeForgotPassword, employeeLogin, employeeReg, getAllEmployees, getEmployeeById, updateEmployee } from "../Controllers/employeeController.js";
+import { applyLeave, createEmployee, deleteEmployee, employeeForgotPassword, employeeLogin, employeeReg, getAllEmployees, getEmployeeById, recordAttendance, updateEmployee } from "../Controllers/employeeController.js";
 
 const router1=express.Router();
 
@@ -11,5 +11,7 @@ router1.get("/getEmployee/:id",getEmployeeById)
 router1.post("/createEmployee",createEmployee)
 router1.put("/updateEmployee/:id",updateEmployee)
 router1.delete("/deleteEmployee/:id",deleteEmployee)
+router1.post("/applyLeave/:id",applyLeave)
+router1.post("/recordAttendance/:id",recordAttendance)
 
 export default router1;

@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 import crypto from'crypto';
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { Employee } from "../Models/schema.js";
+import { AttendanceRecord, Employee, LeaveRequest } from "../Models/schema.js";
 dotenv.config();
 
 export const employeeReg=async(req,res)=>{
@@ -188,13 +188,75 @@ export const deleteEmployee = async (req, res) => {
     }
 };
 
+export const applyLeave = async (req, res) => {
+    try {
+        const { startDate, endDate, reason } = req.body;
+        const { id } = req.params;
+        const employee = await Employee.findById(id);
 
+        if (!employee) {
+            return res.status(404).json({ message: 'Employee not found' });
+        }
 
+        const leaveRequest = new LeaveRequest({
+            employee: id, 
+            startDate,
+            endDate,
+            reason,
+        });
+        await leaveRequest.save();
 
+        employee.leaveRequests.push(leaveRequest._id);
+        await employee.save();
 
+        res.status(200).json({
+            message: 'Leave request submitted successfully',
+            leaveRequest,
+        });
 
+    } catch (error) {
+        console.error('Error applying for leave:', error);
+        res.status(500).json({ message: 'Failed to apply for leave' });
+    }
+};
 
+export const recordAttendance = async (req, res) => {
+    try {
+        const { status } = req.body;
+        const { id } = req.params;
 
+        // Find employee by _id
+        const employee = await Employee.findById(id);
 
+        if (!employee) {
+            return res.status(404).json({ message: 'Employee not found' });
+        }
 
+        // Record today's date
+        const date = new Date();
 
+        // Create attendance record
+        const attendanceRecord = new AttendanceRecord({
+            employee: id,
+            date,
+            status,
+        });
+
+        // Save attendance record
+        await attendanceRecord.save();
+
+        // Update employee's attendance records
+        employee.attendanceRecords.push(attendanceRecord._id);
+        await employee.save();
+
+        // Respond with success message and attendance record details
+        res.status(200).json({
+            message: 'Attendance recorded successfully',
+            attendanceRecord,
+        });
+
+    } catch (error) {
+        console.error('Error recording attendance:', error);
+        res.status(500).json({ message: 'Failed to record attendance' });
+    }
+};
