@@ -42,7 +42,7 @@ export const employeeLogin=async(req,res)=>{
           employee.token = token;
           await employee.save();
 
-        res.status(200).json({message:"Employee logged-in successfully",token:token},);
+        res.status(200).json({message:"Employee logged-in successfully",token:token,id: employee._id});
     } catch (error) {
         console.log(error);
         res.status(500).json({message:'Login failed internal server error'})
