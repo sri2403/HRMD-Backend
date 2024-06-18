@@ -1,5 +1,5 @@
 import  express  from "express";
-import { applyLeave, createEmployee, deleteEmployee, employeeForgotPassword, employeeLogin, employeeReg, getAllEmployees, getEmployeeById, getLeaveRequests, recordAttendance, updateEmployee } from "../Controllers/employeeController.js";
+import { applyLeave, approve, createEmployee, deleteEmployee, employeeForgotPassword, employeeLogin, employeeReg, getAllEmployees, getEmployeeById, getLeaveRequests, recordAttendance, reject, updateEmployee } from "../Controllers/employeeController.js";
 
 const router1=express.Router();
 
@@ -15,6 +15,8 @@ router1.delete("/deleteEmployee/:id",deleteEmployee)
 
 router1.post("/applyLeave/:id",applyLeave)
 router1.get("/getLeaveRequests",getLeaveRequests)
+router1.put("/approve/:id",approve)
+router1.put("/reject/:id",reject)
 
 router1.post("/recordAttendance/:id",recordAttendance)
 

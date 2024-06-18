@@ -270,3 +270,43 @@ export const getLeaveRequests=async(req,res)=>{
         res.status(500).json({message:"Internal server error"})
     }
 }
+
+export const approve=async(req,res)=>{
+    try {
+        const {id}=req.params;
+        const leaveRequest=await LeaveRequest.findOne({ _id: id });
+        if (!leaveRequest) {
+            return res.status(404).json({ message: 'Leave request not found' });
+        }
+        leaveRequest.status = 'Approved';
+        await leaveRequest.save();
+
+        res.status(200).json({
+            message: 'Leave request approved successfully',
+            leaveRequest
+        });
+    } catch (error) {
+        console.error('Error approving leave:', error);
+        res.status(500).json({ message: 'Failed to approve leave' });
+    }
+}
+
+export const reject=async(req,res)=>{
+    try {
+        const {id}=req.params;
+        const leaveRequest=await LeaveRequest.findOne({ _id: id });
+        if (!leaveRequest) {
+            return res.status(404).json({ message: 'Leave request not found' });
+        }
+        leaveRequest.status = 'Rejected';
+        await leaveRequest.save();
+
+        res.status(200).json({
+            message: 'Leave request rejected successfully',
+            leaveRequest
+        });
+    } catch (error) {
+        console.error('Error approving leave:', error);
+        res.status(500).json({ message: 'Failed to approve leave' });
+    }
+}
