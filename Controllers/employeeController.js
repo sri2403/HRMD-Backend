@@ -281,6 +281,10 @@ export const approve=async(req,res)=>{
         leaveRequest.status = 'Approved';
         await leaveRequest.save();
         await LeaveRequest.deleteOne({ _id: id });
+        await Employee.updateOne(
+            { _id: leaveRequest.employee },
+            { $pull: { leaveRequests: id } }
+        );
 
         res.status(200).json({
             message: 'Leave request approved successfully',
@@ -302,6 +306,11 @@ export const reject=async(req,res)=>{
         leaveRequest.status = 'Rejected';
         await leaveRequest.save();
         await LeaveRequest.deleteOne({ _id: id });
+        await Employee.updateOne(
+            { _id: leaveRequest.employee },
+            { $pull: { leaveRequests: id } }
+        );
+
 
         res.status(200).json({
             message: 'Leave request rejected successfully',
