@@ -261,15 +261,12 @@ export const recordAttendance = async (req, res) => {
     }
 };
 
-const getLeaveRequests = async (req, res) => {
-    try {
-        const leaveRequests = await LeaveRequest.find().populate('employee', 'username');
-        res.status(200).json({
-            message: 'Leave requests fetched successfully',
-            result: leaveRequests
-        });
-    } catch (error) {
-        console.error('Error fetching leave requests:', error);
-        res.status(500).json({ message: 'Failed to fetch leave requests' });
+export const getLeaveRequests=async(req,res)=>{
+    try{
+        const LeaveRequests=await LeaveRequest.find();
+        res.status(200).json({message:"All leave requests retrived",result:LeaveRequests})
+    }catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Internal server error"})
     }
-};
+}
