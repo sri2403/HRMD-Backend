@@ -261,12 +261,59 @@ export const recordAttendance = async (req, res) => {
     }
 };
 
-export const getLeaveRequests=async(req,res)=>{
-    try{
-        const LeaveRequests=await LeaveRequest.find();
-        res.status(200).json({message:"All leave requests retrived",result:LeaveRequests})
-    }catch (error) {
-        console.log(error);
-        res.status(500).json({message:"Internal server error"})
+const getLeaveRequests = async (req, res) => {
+    try {
+        const leaveRequests = await LeaveRequest.find().populate('employee', 'name');
+        res.status(200).json({
+            message: 'Leave requests fetched successfully',
+            result: leaveRequests
+        });
+    } catch (error) {
+        console.error('Error fetching leave requests:', error);
+        res.status(500).json({ message: 'Failed to fetch leave requests' });
     }
-}
+};
+
+export const approveLeave = async (req, res) => {
+    try {
+        const { leaveId } = req.params;
+        const leaveRequest = await LeaveRequest.findById(leaveId);
+
+        if (!leaveRequest) {
+            return res.status(404).json({ message: 'Leave request not found' });
+        }
+
+        leaveRequest.status = 'Approved';
+        await leaveRequest.save();
+
+        res.status(200).json({
+            message: 'Leave request approved successfully',
+            leaveRequest
+        });
+    } catch (error) {
+        console.error('Error approving leave:', error);
+        res.status(500).json({ message: 'Failed to approve leave' });
+    }
+};
+
+export const rejectLeave = async (req, res) => {
+    try {
+        const { leaveId } = req.params;
+        const leaveRequest = await LeaveRequest.findById(leaveId);
+
+        if (!leaveRequest) {
+            return res.status(404).json({ message: 'Leave request not found' });
+        }
+
+        leaveRequest.status = 'Rejected';
+        await leaveRequest.save();
+
+        res.status(200).json({
+            message: 'Leave request rejected successfully',
+            leaveRequest
+        });
+    } catch (error) {
+        console.error('Error rejecting leave:', error);
+        res.status(500).json({ message: 'Failed to reject leave' });
+    }
+};
