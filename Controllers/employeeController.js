@@ -260,3 +260,13 @@ export const recordAttendance = async (req, res) => {
         res.status(500).json({ message: 'Failed to record attendance' });
     }
 };
+
+export const getLeaveRequests=async(req,res)=>{
+    try{
+        const LeaveRequests=await LeaveRequest.find();
+        res.status(200).json({message:"All leave requests",result:LeaveRequests})
+    }catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Internal server error"})
+    }
+}
