@@ -263,7 +263,7 @@ export const recordAttendance = async (req, res) => {
 
 const getLeaveRequests = async (req, res) => {
     try {
-        const leaveRequests = await LeaveRequest.find().populate('employee', 'name');
+        const leaveRequests = await LeaveRequest.find().populate('employee', 'username');
         res.status(200).json({
             message: 'Leave requests fetched successfully',
             result: leaveRequests
