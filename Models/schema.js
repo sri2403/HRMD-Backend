@@ -33,6 +33,9 @@ export const Employee = mongoose.model("Employee", employeeSchema);
 const payrollSchema=mongoose.Schema({
     employee: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee', required: true },
     status: { type: String, enum: ["Paid", "Pending"], default: "Pending" },
+    username: { type: String, required: true },
+    role: { type: String, required: true },
+    salary: { type: Number, required: true }
 })
 export const Payroll=mongoose.model("Payroll",payrollSchema)
 
@@ -45,6 +48,7 @@ export const Feedback = mongoose.model("Feedback",feedbackSchema);
 
 const leaveRequestSchema = new mongoose.Schema({
     employee: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee', required: true },
+    username: { type: String, required: true },
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     reason: { type: String, required: true },
@@ -55,6 +59,7 @@ export const LeaveRequest = mongoose.model('LeaveRequest', leaveRequestSchema);
 
 const attendanceRecordSchema = new mongoose.Schema({
     employee: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee', required: true },
+    username: { type: String, required: true },
     date: { type: Date, required: true },
     status: { type: String, enum: ['Present',"Absent","On Leave"], required: true },
     recordedAt: { type: Date, default: Date.now }

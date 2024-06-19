@@ -200,6 +200,7 @@ export const applyLeave = async (req, res) => {
 
         const leaveRequest = new LeaveRequest({
             employee: id, 
+            username:employee.username,
             startDate,
             endDate,
             reason,
@@ -298,6 +299,7 @@ export const recordAttendance = async (req, res) => {
 
         // Create attendance record
         const attendanceRecord = new AttendanceRecord({
+            username:employee.username,
             employee: id,
             date,
             status,
@@ -360,7 +362,7 @@ export const giveFeedback=async(req,res)=>{
 
 export const pay=async(req,res)=>{
     try {
-        const {id} = req.params;
+        const { id } = req.params;
 
         const employee = await Employee.findById(id);
         if (!employee) {
@@ -369,10 +371,16 @@ export const pay=async(req,res)=>{
 
         const payment = new Payroll({
             employee: id,
+            username: employee.username,
+            role: employee.role,
+            salary: employee.salary,
             status: "Paid",
         });
 
         await payment.save();
+
+        employee.leaveRequests.push(payment._id);
+        await employee.save();
 
         res.status(200).json({
             message: 'Payment successful',
@@ -387,7 +395,7 @@ export const pay=async(req,res)=>{
 export const getAllPayments=async(req,res)=>{
     try{
         const payments=await Payroll.find();
-        res.status(200).json({message:"All payments retrived",result:payments})
+        res.status(200).json({message:"All leave requests retrived",result:payments})
     }catch (error) {
         console.log(error);
         res.status(500).json({message:"Internal server error"})
