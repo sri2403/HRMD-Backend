@@ -24,20 +24,20 @@ const employeeSchema = new mongoose.Schema({
     token: String,
     leaveRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'LeaveRequest' }],
     attendanceRecords: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AttendanceRecord' }],
-    Feedbacks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Feedback' }],
-    Payrolls: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Payroll' }],
+    feedbacks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Feedback' }],
+    payrolls: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Payroll' }],
 });
 
 export const Employee = mongoose.model("Employee", employeeSchema);
 
-const payrollSchema=mongoose.Schema({
+const payrollSchema= new mongoose.Schema({
     employee: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee', required: true },
     status: { type: String, enum: ["Paid", "Pending"], default: "Pending" },
     username: { type: String, required: true },
     role: { type: String, required: true },
-    salary: { type: Number, required: true }
+    salary: { type: Number, required: true },
 })
-export const Payroll=mongoose.model("Payroll",payrollSchema)
+export const Payroll= mongoose.model("Payroll",payrollSchema)
 
 const feedbackSchema=new mongoose.Schema({
     employee: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee', required: true },

@@ -348,7 +348,7 @@ export const giveFeedback=async(req,res)=>{
             feedback,
         });
         await newfeedback.save();
-        employee.Feedbacks.push(feedback._id);
+        employee.feedbacks.push(feedback._id);
         await employee.save();
         res.status(200).json({
             message: 'Feedback submitted successfully',
@@ -379,25 +379,15 @@ export const pay=async(req,res)=>{
 
         await payment.save();
 
-        employee.leaveRequests.push(payment._id);
+        employee.payrolls.push(payment._id);
         await employee.save();
 
         res.status(200).json({
             message: 'Payment successful',
-            payment,
+            result:payment,
         });
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: 'Failed to process payment' });
-    }
-}
-
-export const getAllPayments=async(req,res)=>{
-    try{
-        const payments=await Payroll.find();
-        res.status(200).json({message:"All leave requests retrived",result:payments})
-    }catch (error) {
-        console.log(error);
-        res.status(500).json({message:"Internal server error"})
     }
 }
