@@ -23,12 +23,18 @@ const employeeSchema = new mongoose.Schema({
     salary: String,
     token: String,
     leaveRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'LeaveRequest' }],
-    attendanceRecords: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AttendanceRecord' }]
+    attendanceRecords: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AttendanceRecord' }],
+    Feedbacks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'GiveFeedback' }]
 });
 
 export const Employee = mongoose.model("Employee", employeeSchema);
 
-
+const feedbackSchema=new mongoose.Schema({
+    employee: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee', required: true },
+    rating:Number,
+    feedback:String
+})
+export const Feedback = mongoose.model("Feedback",feedbackSchema);
 
 const leaveRequestSchema = new mongoose.Schema({
     employee: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee', required: true },

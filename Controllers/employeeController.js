@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 import crypto from'crypto';
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { AttendanceRecord, Employee, LeaveRequest } from "../Models/schema.js";
+import { AttendanceRecord, Employee, Feedback, LeaveRequest } from "../Models/schema.js";
 dotenv.config();
 
 export const employeeReg=async(req,res)=>{
@@ -331,3 +331,30 @@ export const getAttendanceList=async(req,res)=>{
         res.status(500).json({message:"Internal server error"})
     }
 }
+
+export const giveFeedback=async(req,res)=>{
+    try {
+        const {id}=req.params;
+        const {rating,feedback}=req.body;
+        const employee = await Employee.findById(id);
+        if (!employee) {
+            return res.status(404).json({ message: 'Employee not found' });
+        }
+        const newfeedback= new Feedback({
+            employee: id, 
+            rating,
+            feedback,
+        });
+        await newfeedback.save();
+        employee.Feedbacks.push(feedback._id);
+        await employee.save();
+        res.status(200).json({
+            message: 'Feedback submitted successfully',
+            result: newfeedback,
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Failed to submit feedback' });
+    }
+}
+
