@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 import crypto from'crypto';
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { AttendanceRecord, Employee, Feedback, LeaveRequest } from "../Models/schema.js";
+import { AttendanceRecord, Employee, Feedback, LeaveRequest, Payroll } from "../Models/schema.js";
 dotenv.config();
 
 export const employeeReg=async(req,res)=>{
@@ -358,3 +358,28 @@ export const giveFeedback=async(req,res)=>{
     }
 }
 
+export const pay=async(req,res)=>{
+    try {
+        const {id} = req.params;
+
+        const employee = await Employee.findById(id);
+        if (!employee) {
+            return res.status(404).json({ message: 'Employee not found' });
+        }
+
+        const payment = new Payroll({
+            employee: id,
+            status: "Paid",
+        });
+
+        await payment.save();
+
+        res.status(200).json({
+            message: 'Payment successful',
+            payment,
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Failed to process payment' });
+    }
+}
