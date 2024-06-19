@@ -220,47 +220,6 @@ export const applyLeave = async (req, res) => {
     }
 };
 
-export const recordAttendance = async (req, res) => {
-    try {
-        const { status } = req.body;
-        const { id } = req.params;
-
-        // Find employee by _id
-        const employee = await Employee.findById(id);
-
-        if (!employee) {
-            return res.status(404).json({ message: 'Employee not found' });
-        }
-
-        // Record today's date
-        const date = new Date();
-
-        // Create attendance record
-        const attendanceRecord = new AttendanceRecord({
-            employee: id,
-            date,
-            status,
-        });
-
-        // Save attendance record
-        await attendanceRecord.save();
-
-        // Update employee's attendance records
-        employee.attendanceRecords.push(attendanceRecord._id);
-        await employee.save();
-
-        // Respond with success message and attendance record details
-        res.status(200).json({
-            message: 'Attendance recorded successfully',
-            attendanceRecord,
-        });
-
-    } catch (error) {
-        console.error('Error recording attendance:', error);
-        res.status(500).json({ message: 'Failed to record attendance' });
-    }
-};
-
 export const getLeaveRequests=async(req,res)=>{
     try{
         const LeaveRequests=await LeaveRequest.find();
@@ -319,5 +278,56 @@ export const reject=async(req,res)=>{
     } catch (error) {
         console.error('Error approving leave:', error);
         res.status(500).json({ message: 'Failed to approve leave' });
+    }
+}
+
+export const recordAttendance = async (req, res) => {
+    try {
+        const { status } = req.body;
+        const { id } = req.params;
+
+        // Find employee by _id
+        const employee = await Employee.findById(id);
+
+        if (!employee) {
+            return res.status(404).json({ message: 'Employee not found' });
+        }
+
+        // Record today's date
+        const date = new Date();
+
+        // Create attendance record
+        const attendanceRecord = new AttendanceRecord({
+            employee: id,
+            date,
+            status,
+        });
+
+        // Save attendance record
+        await attendanceRecord.save();
+
+        // Update employee's attendance records
+        employee.attendanceRecords.push(attendanceRecord._id);
+        await employee.save();
+
+        // Respond with success message and attendance record details
+        res.status(200).json({
+            message: 'Attendance recorded successfully',
+            attendanceRecord,
+        });
+
+    } catch (error) {
+        console.error('Error recording attendance:', error);
+        res.status(500).json({ message: 'Failed to record attendance' });
+    }
+};
+
+export const getAttendanceList=async(req,res)=>{
+    try{
+        const AttendanceRecords=await AttendanceRecord.find();
+        res.status(200).json({message:"All attendance records retrived",result:AttendanceRecords})
+    }catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Internal server error"})
     }
 }
