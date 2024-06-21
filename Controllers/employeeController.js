@@ -124,9 +124,7 @@ export const createEmployee=async(req,res)=>{
     try {
         const{username,email,password,dob,gender,city,contact,role,degree,department,accountNumber,salary}=req.body;
         const hashPassword= await bcryptjs.hash(password,10);
-        const count = await Employee.countDocuments();
         const newEmployee=new Employee({
-            id:count+1,
             username,
             email,
             password:hashPassword,dob,gender,city,contact,role,degree,department,accountNumber,salary

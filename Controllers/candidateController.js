@@ -151,3 +151,4 @@ export const updateCandidate=async(req,res)=>{
         });
     }
 }
+

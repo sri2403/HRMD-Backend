@@ -2,7 +2,7 @@ import bcryptjs from "bcryptjs";
 import nodemailer from 'nodemailer';
 import crypto from'crypto';
 import jwt from "jsonwebtoken";
-import { Admin } from "../Models/schema.js";
+import { Admin, Job } from "../Models/schema.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -96,5 +96,19 @@ export const adminDashboard=async (req, res) => {
         res.status(200).json({ message:"Welcome to Admin Dashboard"});
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+export const createJobpost=async(req, res) => {
+    try {
+        const {role,experience,requiredSkills,companyName,location}=req.body;
+        const newJob=new Job({
+            role,experience,requiredSkills,companyName,location
+        })
+        await newJob.save();
+        res.status(200).json({message:"Job created successfully", result:newJob})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Job creation failed"})
     }
 }
