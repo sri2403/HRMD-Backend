@@ -103,3 +103,54 @@ export const candidateForgotPassword = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 }
+
+export const getCandidateById=async(req,res)=>{
+    try {
+        const { id } = req.params;
+        const candidate = await Candidate.findOne({_id: id });
+        if (!candidate) {
+            return res.status(404).json({
+                message: "Candidate not found"
+            });
+        }
+        res.status(200).json({
+            message: "Candidate found successfully",
+            result: candidate
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Candidate finding failed"
+        });
+    }
+}
+
+export const updateCandidate=async(req,res)=>{
+    try {
+        const { id } = req.params;
+        const {username,email,password,dob,gender,city,contact,college,sslcMark,hscMark,degree,department,cgpa,domain,skills,expectedSalary} = req.body;
+        const candidate = await Candidate.findOne({ _id: id });
+
+        if (!candidate) {
+            return res.status(404).json({
+                message: "Candidate not found"
+            });
+        }
+        let updateData = {username,email,password,dob,gender,city,contact,college,sslcMark,hscMark,degree,department,cgpa,domain,skills,expectedSalary};
+
+        if (password) {
+            updateData.password = await bcryptjs.hash(password, 10);
+        }
+        const updatedCandidate = await Candidate.findByIdAndUpdate(candidate._id, updateData, { new: true });
+
+        res.status(200).json({
+            message: "Candidate updated successfully",
+            result: updatedCandidate
+        });
+    } catch (error) {
+        console.error("Error updating candidate:", error);
+        res.status(500).json({
+            message: "Candidate update failed"
+        });
+    }
+}
