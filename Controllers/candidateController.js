@@ -138,9 +138,6 @@ export const updateCandidate=async(req,res)=>{
         }
         let updateData = {username,email,password,dob,gender,city,contact,college,sslcMark,hscMark,degree,department,cgpa,domain,skills,expectedSalary};
 
-        if (password) {
-            updateData.password = await bcryptjs.hash(password, 10);
-        }
         const updatedCandidate = await Candidate.findByIdAndUpdate(candidate._id, updateData, { new: true });
 
         res.status(200).json({
