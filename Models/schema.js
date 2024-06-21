@@ -84,7 +84,8 @@ const candidateSchema=new mongoose.Schema({
     domain: String,
     skills: String,
     expectedSalary:String,
-    token:String
+    token:String,
+    appliedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }],
 })
 export const Candidate=mongoose.model('Candidate',candidateSchema)
 
@@ -95,17 +96,8 @@ const jobSchema = new mongoose.Schema({
     companyName: { type: String },
     location: { type: String },
     createdAt: { type: Date, default: Date.now },
+    appliedCandidates: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Candidate' }],
 });
 
 export const Job=mongoose.model('Job', jobSchema);
 
-const applicationSchema = new mongoose.Schema({
-    jobId: { type: mongoose.Schema.Types.ObjectId, ref: 'Job', required: true },
-    candidateName: { type: String, required: true },
-    email: { type: String, required: true },
-    resumeUrl: { type: String, required: true },
-    appliedAt: { type: Date, default: Date.now },
-    status: { type: String, enum: ['Pending', 'Hired', 'Rejected'], default: 'Pending' },
-});
-
-export const Application = mongoose.model('Application', applicationSchema);

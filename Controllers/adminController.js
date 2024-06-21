@@ -2,7 +2,7 @@ import bcryptjs from "bcryptjs";
 import nodemailer from 'nodemailer';
 import crypto from'crypto';
 import jwt from "jsonwebtoken";
-import { Admin, Job } from "../Models/schema.js";
+import { Admin, Candidate, Job } from "../Models/schema.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -120,5 +120,32 @@ export const getAllJobs=async(req,res)=>{
     } catch (error) {
         console.log(error);
         res.status(500).json({message:"Internal server error"})
+    }
+}
+
+export const applyJob=async(req,res)=>{
+    try {
+        const { jobId, candidateId } = req.body;
+        if (!jobId || !candidateId) {
+            return res.status(400).json({ message: 'Job ID and Candidate ID are required' });
+        }
+        const candidate = await Candidate.findById(candidateId);
+        const job = await Job.findById(jobId);
+        if (!candidate || !job) {
+            return res.status(404).json({ message: 'Candidate or Job not found' });
+        }
+        if (candidate.appliedJobs.includes(jobId)) {
+            return res.status(400).json({ message: 'Job already applied by candidate' });
+        }
+        candidate.appliedJobs.push(jobId);
+        await candidate.save();
+
+        job.appliedCandidates.push(candidateId);
+        await job.save();
+        
+        res.status(201).json({ message: 'Application submitted successfully', appliedJob: job });
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
     }
 }
