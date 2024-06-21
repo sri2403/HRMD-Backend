@@ -135,14 +135,14 @@ export const applyJob=async(req,res)=>{
             return res.status(404).json({ message: 'Candidate or Job not found' });
         }
         if (candidate.appliedJobs.includes(jobId)) {
-            return res.status(400).json({ message: 'Job already applied by candidate' });
+            return res.status(400).json({ message: 'Already applied for this job' });
         }
         candidate.appliedJobs.push(jobId);
         await candidate.save();
 
         job.appliedCandidates.push(candidateId);
         await job.save();
-        
+
         res.status(201).json({ message: 'Application submitted successfully', appliedJob: job });
     }catch (error) {
         console.error(error);
