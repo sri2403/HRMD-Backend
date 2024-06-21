@@ -112,3 +112,13 @@ export const createJobpost=async(req, res) => {
         res.status(500).json({message:"Job creation failed"})
     }
 }
+
+export const getAllJobs=async(req,res)=>{
+    try {
+        const jobs=await Job.find();
+        res.status(200).json({message:"All jobs",result:jobs})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Internal server error"})
+    }
+}
