@@ -8,12 +8,25 @@ dotenv.config();
 
 export const candidateReg=async(req,res)=>{
     try {
-        const{username,email,password}=req.body;
+        const{username,email,password,dob,gender,city,contact,college,sslcMark,hscMark,degree,department,cgpa,domain,skills,expectedSalary}=req.body;
         const hashPassword= await bcryptjs.hash(password,10);
         const newCandidate=new Candidate({
             username,
             email,
-            password:hashPassword
+            password:hashPassword,
+            dob,
+            gender,
+            city,
+            contact,
+            college,
+            sslcMark,
+            hscMark,
+            degree,
+            department,
+            cgpa,
+            domain,
+            skills,
+            expectedSalary
         });
         await newCandidate.save();
         res.status(200).json({message:"Candidate registered successfully", result:newCandidate})

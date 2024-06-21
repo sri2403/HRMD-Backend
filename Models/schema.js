@@ -71,6 +71,19 @@ const candidateSchema=new mongoose.Schema({
     username:String,
     email:String,
     password:String,
+    dob: String,
+    gender: String,
+    city: String,
+    contact:String,
+    college: String,
+    sslcMark: String,
+    hscMark: String,
+    degree: String,
+    department: String,
+    cgpa:String,
+    domain: String,
+    skills: String,
+    expectedSalary:String,
     token:String
 })
 export const Candidate=mongoose.model('Candidate',candidateSchema)
