@@ -8,7 +8,7 @@ dotenv.config();
 
 export const candidateReg=async(req,res)=>{
     try {
-        const{username,email,password,dob,gender,city,contact,college,sslcMark,hscMark,degree,department,cgpa,domain,skills,expectedSalary}=req.body;
+        const{username,email,password,dob,gender,city,contact,college,sslcMark,hscMark,degree,department,cgpa,experience,domain,skills,expectedSalary}=req.body;
         const hashPassword= await bcryptjs.hash(password,10);
         const newCandidate=new Candidate({
             username,
@@ -24,6 +24,7 @@ export const candidateReg=async(req,res)=>{
             degree,
             department,
             cgpa,
+            experience,
             domain,
             skills,
             expectedSalary
@@ -128,7 +129,7 @@ export const getCandidateById=async(req,res)=>{
 export const updateCandidate=async(req,res)=>{
     try {
         const { id } = req.params;
-        const {username,email,password,dob,gender,city,contact,college,sslcMark,hscMark,degree,department,cgpa,domain,skills,expectedSalary} = req.body;
+        const {username,email,password,dob,gender,city,contact,college,sslcMark,hscMark,degree,department,cgpa,experience,domain,skills,expectedSalary} = req.body;
         const candidate = await Candidate.findOne({ _id: id });
 
         if (!candidate) {
@@ -136,7 +137,7 @@ export const updateCandidate=async(req,res)=>{
                 message: "Candidate not found"
             });
         }
-        let updateData = {username,email,password,dob,gender,city,contact,college,sslcMark,hscMark,degree,department,cgpa,domain,skills,expectedSalary};
+        let updateData = {username,email,password,dob,gender,city,contact,college,sslcMark,hscMark,degree,department,cgpa,experience,domain,skills,expectedSalary};
 
         const updatedCandidate = await Candidate.findByIdAndUpdate(candidate._id, updateData, { new: true });
 
@@ -161,3 +162,5 @@ export const getAllCandidates=async(req,res)=>{
         res.status(500).json({message:"Internal server error"})
     }
 }
+
+

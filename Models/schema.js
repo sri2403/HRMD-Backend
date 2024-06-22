@@ -81,6 +81,7 @@ const candidateSchema=new mongoose.Schema({
     degree: String,
     department: String,
     cgpa:String,
+    experience:String,
     domain: String,
     skills: String,
     expectedSalary:String,
