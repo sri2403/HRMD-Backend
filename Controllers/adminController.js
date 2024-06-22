@@ -123,38 +123,3 @@ export const getAllJobs=async(req,res)=>{
     }
 }
 
-export const applyJob = async (req, res) => {
-    try {
-        const { jobId, candidateId } = req.body;
-        if (!jobId || !candidateId) {
-            return res.status(400).json({ message: 'Job ID and Candidate ID are required' });
-        }
-        
-        // Check if the candidate has already applied for any job
-        const candidate = await Candidate.findById(candidateId);
-        if (!candidate) {
-            return res.status(404).json({ message: 'Candidate not found' });
-        }
-        if (candidate.appliedJob) {
-            return res.status(400).json({ message: "The candidate applied for a job earlier, and it's recommended to wait six months before applying for another position." });
-        }
-
-        const job = await Job.findById(jobId);
-        if (!job) {
-            return res.status(404).json({ message: 'Job not found' });
-        }
-
-        // Update candidate's appliedJob and save
-        candidate.appliedJob = jobId;
-        await candidate.save();
-
-        // Update job's appliedCandidates and save
-        job.appliedCandidates.push(candidateId);
-        await job.save();
-
-        res.status(201).json({ message: 'Application submitted successfully', appliedJob: job });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
-    }
-}

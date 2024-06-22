@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 import crypto from'crypto';
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { Candidate } from "../Models/schema.js";
+import { Candidate, Job } from "../Models/schema.js";
 dotenv.config();
 
 export const candidateReg=async(req,res)=>{
@@ -163,4 +163,51 @@ export const getAllCandidates=async(req,res)=>{
     }
 }
 
+export const applyJob = async (req, res) => {
+    const { candidateId, jobId } = req.body;
 
+    try {
+        const candidate = await Candidate.findById(candidateId);
+        if (!candidate) {
+            return res.status(404).json({ message: 'Candidate not found' });
+        }
+
+        if (candidate.appliedJobs.length === 1) {
+            return res.status(400).json({
+                message: "The candidate applied for a job earlier, and it's recommended to wait six months before applying for another position."
+            });
+        }
+
+        const job = await Job.findById(jobId);
+        if (!job) {
+            return res.status(404).json({ message: 'Job not found' });
+        }
+
+        candidate.appliedJobs.push(jobId); 
+        await candidate.save();
+
+        job.appliedCandidates.push(candidateId);
+        await job.save();
+
+        return res.status(201).json({ message: 'Application submitted successfully', appliedJob: job });
+    } catch (error) {
+        console.error('Error applying for job:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+export const candidatesWithJob = async (req, res) => {
+    try {
+        const candidates = await Candidate.find({}).populate('appliedJobs');
+        const filteredCandidates = candidates.filter(candidate => candidate.appliedJobs.length === 1);
+
+        if (filteredCandidates.length === 0) {
+            return res.status(404).json({ message: "No candidates applied these job" });
+        }
+
+        res.status(200).json({ message: "Candidates with exactly one applied job", result: filteredCandidates });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};

@@ -86,7 +86,7 @@ const candidateSchema=new mongoose.Schema({
     skills: String,
     expectedSalary:String,
     token:String,
-    appliedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }],
+    appliedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }]
 })
 export const Candidate=mongoose.model('Candidate',candidateSchema)
 
