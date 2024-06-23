@@ -222,6 +222,8 @@ export const candidateHired= async (req, res) => {
         }
 
         candidate.hiringStatus = 'Hired';
+        candidate.appliedJobs = [];
+
         await candidate.save();
 
         return res.status(200).json({ message: 'Candidate hired successfully' });
@@ -241,6 +243,8 @@ export const candidateRejected=async (req, res) => {
         }
 
         candidate.hiringStatus = 'Rejected';
+        candidate.appliedJobs = [];
+
         await candidate.save();
 
         return res.status(200).json({ message: 'Candidate rejected successfully' });
