@@ -386,3 +386,13 @@ export const pay=async(req,res)=>{
         res.status(500).json({ message: 'Failed to process payment' });
     }
 }
+
+export const getAllEmployeesWithPaystatus = async(req, res) =>{
+    try {
+        const employees=await Employee.find().populate("payrolls");
+        res.status(200).json({message:"All employees list",result:employees})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Internal server error"})
+    }
+}
