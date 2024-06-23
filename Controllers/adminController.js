@@ -2,7 +2,7 @@ import bcryptjs from "bcryptjs";
 import nodemailer from 'nodemailer';
 import crypto from'crypto';
 import jwt from "jsonwebtoken";
-import { Admin, Candidate, Job } from "../Models/schema.js";
+import { Admin, Job } from "../Models/schema.js";
 import dotenv from "dotenv";
 dotenv.config();
 

@@ -20,7 +20,7 @@ const employeeSchema = new mongoose.Schema({
     degree: String,
     department: String,
     accountNumber: String,
-    salary: String,
+    salary: Number,
     token: String,
     leaveRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'LeaveRequest' }],
     attendanceRecords: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AttendanceRecord' }],
