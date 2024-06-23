@@ -42,7 +42,7 @@ export const adminLogin=async(req,res)=>{
           admin.token = token;
           await admin.save();
 
-        res.status(200).json({message:"Admin logged-in successfully",token:token});
+        res.status(200).json({message:"Admin logged-in successfully",token:token,id: admin._id});
     } catch (error) {
         console.log(error);
         res.status(500).json({message:'Login failed internal server error'})
