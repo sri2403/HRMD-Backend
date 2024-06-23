@@ -123,3 +123,19 @@ export const getAllJobs=async(req,res)=>{
     }
 }
 
+export const getAllAdmin = async (req, res) => {
+    try {
+        const admins = await Admin.find();
+
+        const totalCount = await Admin.countDocuments();
+
+        res.status(200).json({
+            message: "All admins retrieved successfully",
+            totalCount: totalCount,
+            result: admins
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Failed to retrieve admins" });
+    }
+}

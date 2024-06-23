@@ -91,15 +91,22 @@ export const employeeForgotPassword = async (req, res) => {
     }
 }
 
-export const getAllEmployees = async(req, res) =>{
+export const getAllCandidates = async (req, res) => {
     try {
-        const employees=await Employee.find();
-        res.status(200).json({message:"All employees list",result:employees})
+        const candidates = await Candidate.find();
+        const totalCount = candidates.length; // Get the total count of candidates
+
+        res.status(200).json({
+            message: "All Candidates",
+            totalCount: totalCount,
+            result: candidates
+        });
     } catch (error) {
         console.log(error);
-        res.status(500).json({message:"Internal server error"})
+        res.status(500).json({ message: "Internal server error" });
     }
 }
+
 export const getEmployeeById=async(req,res)=>{
     try {
         const { id } = req.params;
