@@ -211,3 +211,41 @@ export const candidatesWithJob = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
+export const candidateHired= async (req, res) => {
+    const {id } = req.params;
+
+    try {
+        const candidate = await Candidate.findById(id);
+        if (!candidate) {
+            return res.status(404).json({ message: 'Candidate not found' });
+        }
+
+        candidate.hiringStatus = 'Hired';
+        await candidate.save();
+
+        return res.status(200).json({ message: 'Candidate hired successfully' });
+    } catch (error) {
+        console.error('Error hiring candidate:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+export const candidateRejected=async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const candidate = await Candidate.findById(id);
+        if (!candidate) {
+            return res.status(404).json({ message: 'Candidate not found' });
+        }
+
+        candidate.hiringStatus = 'Rejected';
+        await candidate.save();
+
+        return res.status(200).json({ message: 'Candidate rejected successfully' });
+    } catch (error) {
+        console.error('Error rejecting candidate:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};

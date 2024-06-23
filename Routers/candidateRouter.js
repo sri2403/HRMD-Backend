@@ -1,5 +1,5 @@
 import  express  from "express";
-import { applyJob, candidateForgotPassword, candidateLogin, candidateReg, candidatesWithJob, getAllCandidates, getCandidateById, updateCandidate } from "../Controllers/candidateController.js";
+import { applyJob, candidateForgotPassword, candidateHired, candidateLogin, candidateReg, candidateRejected, candidatesWithJob, getAllCandidates, getCandidateById, updateCandidate } from "../Controllers/candidateController.js";
 
 const router2=express.Router();
 
@@ -13,5 +13,8 @@ router2.get("/getAllCandidates",getAllCandidates)
 
 router2.post("/applyJob",applyJob)
 router2.get("/candidatesWithJob",candidatesWithJob)
+
+router2.post("/candidateHired/:id",candidateHired)
+router2.post("/candidateRejected/:id",candidateRejected)
 
 export default router2;

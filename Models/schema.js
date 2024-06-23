@@ -86,6 +86,7 @@ const candidateSchema=new mongoose.Schema({
     skills: String,
     expectedSalary:String,
     token:String,
+    hiringStatus: { type: String, enum: ["Pending", "Hired", "Rejected"], default: 'Pending' },
     appliedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }]
 })
 export const Candidate=mongoose.model('Candidate',candidateSchema)
