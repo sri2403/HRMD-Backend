@@ -149,7 +149,7 @@ export const updateEmployee=async(req,res)=>{
     try {
         const { id } = req.params;
         const {
-            username, email, password, dob, gender, city, contact, role, degree, department, accountNumber, salary
+            username, email, dob, gender, city, contact, role, degree, department, accountNumber, salary
         } = req.body;
         const employee = await Employee.findOne({ _id: id });
 
