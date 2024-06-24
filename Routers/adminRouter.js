@@ -7,7 +7,7 @@ const router=express.Router();
 router.post("/adminReg",adminReg)
 router.post("/adminLogin",adminLogin)
 router.post("/adminForgotPassword",adminForgotPassword)
-router.get("/adminAuth",adminMiddleware,adminAuth)
+router.get("/adminAuth/:adminId",adminMiddleware,adminAuth)
 
 router.post("/createJobpost",createJobpost)
 router.get("/getAllJobs",getAllJobs)
