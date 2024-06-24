@@ -93,7 +93,7 @@ export const adminForgotPassword = async (req, res) => {
 
 export const adminAuth = async(req,res)=>{
     try {
-      const adminId = req.admin._id
+      const {adminId}=req.params;
       const admin = await Admin.findById(adminId)
       res.status(200).json({message:"Authorized admin",data:admin})
     } catch (error) {
