@@ -404,3 +404,15 @@ export const getAllEmployeesWithPaystatus = async(req, res) =>{
         res.status(500).json({message:"Internal server error"})
     }
 }
+
+
+export const employeeAuth = async(req,res)=>{
+    try {
+      const {employeeId}=req.params;
+      const employee = await Employee.findById(employeeId)
+      res.status(200).json({message:"Congrats! you're an Authorized employee",data:employee})
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal server error Failed to get the user" });
+    }
+  }

@@ -95,7 +95,7 @@ export const adminAuth = async(req,res)=>{
     try {
       const {adminId}=req.params;
       const admin = await Admin.findById(adminId)
-      res.status(200).json({message:"Authorized admin",data:admin})
+      res.status(200).json({message:"Congrats! you're an Authorized admin",data:admin})
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Internal server error Failed to get the user" });

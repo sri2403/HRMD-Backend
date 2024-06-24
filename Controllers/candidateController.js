@@ -254,3 +254,14 @@ export const candidateRejected=async (req, res) => {
         return res.status(500).json({ message: 'Server error' });
     }
 };
+
+export const candidateAuth = async(req,res)=>{
+    try {
+      const {candidateId}=req.params;
+      const candidate = await Candidate.findById(candidateId)
+      res.status(200).json({message:"Congrats! you're an Authorized candidate",data:candidate})
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal server error Failed to get the user" });
+    }
+  }

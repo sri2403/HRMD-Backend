@@ -16,7 +16,7 @@ const adminMiddleware = async(req,res,next)=>{
         req.admin = decode
         const admin = await Admin.findById(req.admin._id)
        if(!admin){
-          return res.status(401).json({message:"Access Denied Not a valid user"})
+          return res.status(401).json({message:"Access Denied Not a valid admin"})
        }
        next()
      } catch (error) {
