@@ -6,8 +6,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const adminMiddleware = async(req,res,next)=>{
-     const token = req.header('Authorization')
-   //   const token = req.headers.authorization?.split(' ')[1]  /// bearer token
+   //   const token = req.header('Authorization')
+     const token = req.headers.authorization?.split(' ')[1]  /// bearer token
      if(!token){
         return res.status(401).json({message:"Token not found"})
      }

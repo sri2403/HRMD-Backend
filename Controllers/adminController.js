@@ -91,13 +91,16 @@ export const adminForgotPassword = async (req, res) => {
     }
 }
 
-export const adminDashboard=async (req, res) => {
+export const adminAuth = async(req,res)=>{
     try {
-        res.status(200).json({ message:"Welcome to Admin Dashboard"});
+      const adminId = req.admin._id
+      const admin = await Admin.findById(adminId)
+      res.status(200).json({message:"Authorized admin",data:[admin]})
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error' });
+      console.log(error);
+      res.status(500).json({ message: "Internal server error Failed to get the user" });
     }
-}
+  }
 
 export const createJobpost=async(req, res) => {
     try {
