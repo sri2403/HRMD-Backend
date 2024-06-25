@@ -159,11 +159,11 @@ export const updateEmployee=async(req,res)=>{
             });
         }
 
-        let updateData = { username, email, dob, gender, city, contact, role, degree, department, accountNumber, salary };
+        let updateData = { username, password,email, dob, gender, city, contact, role, degree, department, accountNumber, salary };
 
         if (password) {
             const hashedPassword = await bcryptjs.hash(password, 10);
-            updateData.hashedPassword = hashedPassword;
+            updateData.password = hashedPassword;
         }
 
         const updatedEmployee = await Employee.findByIdAndUpdate(employee._id, updateData, { new: true });
