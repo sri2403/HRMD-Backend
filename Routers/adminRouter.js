@@ -1,5 +1,5 @@
 import  express  from "express";
-import {  adminAuth, adminForgotPassword, adminLogin, adminReg,  createJobpost, getAllAdmin, getAllJobs } from "../Controllers/adminController.js";
+import {  adminAuth, adminForgotPassword, adminLogin, adminReg,  adminResetPassword,  createJobpost, getAllAdmin, getAllJobs } from "../Controllers/adminController.js";
 import adminMiddleware from "../Middleware/adminMiddleware.js";
 
 const router=express.Router();
@@ -13,6 +13,8 @@ router.post("/createJobpost",createJobpost)
 router.get("/getAllJobs",getAllJobs)
 
 router.get("/getAllAdmin",getAllAdmin)
+
+router.post("/adminResetPassword/:id/:token",adminResetPassword)
 
 
 export default router;

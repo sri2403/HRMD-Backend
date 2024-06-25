@@ -418,3 +418,22 @@ export const employeeAuth = async(req,res)=>{
   }
 
   
+  export const employeeResetPassword = async(req,res)=>{
+    const { id, token } = req.params;
+    const { password } = req.body;
+
+    try {
+        jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {
+            if (err) {
+                return res.status(401).json({ status: "error", message: "Invalid token" });
+            }
+            const hashedPassword = await bcryptjs.hash(password, 10);
+            await Employee.findByIdAndUpdate(id, { password: hashedPassword });
+
+            return res.json({ status: "success", message: "Password reset successful" });
+        });
+    } catch (error) {
+        console.error("Error resetting password:", error);
+        return res.status(500).json({ status: "error", message: "Internal server error" });
+    }
+  }
