@@ -29,7 +29,7 @@ router1.get("/getAllEmployeesWithPaystatus",getAllEmployeesWithPaystatus)
 
 router1.get("/employeeAuth/:employeeId",empMiddleware,employeeAuth )
 
-router1.post("/employeeResetPassword/:id/:token",employeeResetPassword)
+router1.post("/employeeResetPassword/:id",employeeResetPassword)
 
 
 

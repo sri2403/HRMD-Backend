@@ -20,6 +20,6 @@ router2.post("/candidateRejected/:id",candidateRejected)
 
 router2.get("/candidateAuth/:candidateId",candMiddleware,candidateAuth )
 
-router2.post("/candidateResetPassword/:id/:token",candidateResetPassword)
+router2.post("/candidateResetPassword/:id",candidateResetPassword)
 
 export default router2;

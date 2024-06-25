@@ -14,7 +14,7 @@ router.get("/getAllJobs",getAllJobs)
 
 router.get("/getAllAdmin",getAllAdmin)
 
-router.post("/adminResetPassword/:id/:token",adminResetPassword)
+router.post("/adminResetPassword/:id",adminResetPassword)
 
 
 export default router;
