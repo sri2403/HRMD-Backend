@@ -143,17 +143,3 @@ export const getAllAdmin = async (req, res) => {
     }
 }
 
-export const adminResetPassword = async(req,res)=>{
-    const { id } = req.params;
-    const { password } = req.body;
-
-    try {
-        const hashedPassword = await bcryptjs.hash(password, 10);
-        await Admin.findByIdAndUpdate(id, { password: hashedPassword });
-
-        return res.json({ status: "success", message: "Password reset successful" });
-    } catch (error) {
-        console.error("Error resetting password:", error);
-        return res.status(500).json({ status: "error", message: "Internal server error" });
-    }
-  }

@@ -265,18 +265,3 @@ export const candidateAuth = async(req,res)=>{
       res.status(500).json({ message: "Internal server error Failed to get the user" });
     }
   }
-
-  export const candidateResetPassword = async(req,res)=>{
-    const { id } = req.params;
-    const { password } = req.body;
-
-    try {
-        const hashedPassword = await bcryptjs.hash(password, 10);
-        await Candidate.findByIdAndUpdate(id, { password: hashedPassword });
-
-        return res.json({ status: "success", message: "Password reset successful" });
-    } catch (error) {
-        console.error("Error resetting password:", error);
-        return res.status(500).json({ status: "error", message: "Internal server error" });
-    }
-  }

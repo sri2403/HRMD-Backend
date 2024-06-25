@@ -149,7 +149,7 @@ export const updateEmployee=async(req,res)=>{
     try {
         const { id } = req.params;
         const {
-            username, email, dob, gender, city, contact, role, degree, department, accountNumber, salary
+            username, password, email, dob, gender, city, contact, role, degree, department, accountNumber, salary
         } = req.body;
         const employee = await Employee.findOne({ _id: id });
 
@@ -158,7 +158,7 @@ export const updateEmployee=async(req,res)=>{
                 message: "Employee not found"
             });
         }
-        let updateData = {username,email,dob,gender,city,contact,role,degree,department,accountNumber,salary};
+        let updateData = {username,password,email,dob,gender,city,contact,role,degree,department,accountNumber,salary};
 
         const updatedEmployee = await Employee.findByIdAndUpdate(employee._id, updateData, { new: true });
 
@@ -418,17 +418,4 @@ export const employeeAuth = async(req,res)=>{
   }
 
   
-  export const employeeResetPassword = async(req,res)=>{
-    const { id } = req.params;
-    const { password } = req.body;
-
-    try {
-        const hashedPassword = await bcryptjs.hash(password, 10);
-        await Employee.findByIdAndUpdate(id, { password: hashedPassword });
-
-        return res.json({ status: "success", message: "Password reset successful" });
-    } catch (error) {
-        console.error("Error resetting password:", error);
-        return res.status(500).json({ status: "error", message: "Internal server error" });
-    }
-  }
+  
