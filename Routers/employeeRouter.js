@@ -30,4 +30,6 @@ router1.get("/getAllEmployeesWithPaystatus",getAllEmployeesWithPaystatus)
 router1.get("/employeeAuth/:employeeId",empMiddleware,employeeAuth )
 
 
+
+
 export default router1;

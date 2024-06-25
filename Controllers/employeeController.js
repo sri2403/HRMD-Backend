@@ -416,3 +416,5 @@ export const employeeAuth = async(req,res)=>{
       res.status(500).json({ message: "Internal server error Failed to get the user" });
     }
   }
+
+  
